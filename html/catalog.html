@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katalog — TopUpIn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div data-chrome="header" data-active="home"></div>
+
+<main class="account-shell">
+  <div class="container">
+    <div class="account-header">
+      <div>
+        <h1>Katalog Produk</h1>
+        <p class="sub">Pilih game favoritmu, tentukan paket, dan top up dalam hitungan menit.</p>
+      </div>
+      <a href="../html/index.html" class="btn btn-outline">← Beranda</a>
+    </div>
+
+    <div class="catalog-layout">
+      <aside class="account-card filter-panel">
+        <div class="filter-group">
+          <h4>Kategori</h4>
+          <div id="cat-filters"></div>
+        </div>
+        <div class="filter-group">
+          <h4>Cari Produk</h4>
+          <div class="search-bar">
+            <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+            <input type="search" id="side-search" placeholder="Mobile Legends...">
+          </div>
+        </div>
+        <div class="filter-group">
+          <h4>Urutkan</h4>
+          <select id="sort" class="sort-select">
+            <option value="popular">Terpopuler</option>
+            <option value="low">Harga Terendah</option>
+            <option value="high">Harga Tertinggi</option>
+          </select>
+        </div>
+      </aside>
+
+      <section>
+        <div class="catalog-top">
+          <p class="result-count" id="result-count"></p>
+        </div>
+        <div class="product-grid" id="product-grid"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay hidden" id="pkg-modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Pilih paket">
+    <div class="modal-head">
+      <div>
+        <h3 id="modal-name"></h3>
+        <div class="sub" id="modal-pub"></div>
+      </div>
+      <button type="button" class="modal-close" id="modal-close" aria-label="Tutup">✕</button>
+    </div>
+    <div class="pkg-list" id="pkg-list"></div>
+    <button type="button" class="btn btn-primary btn-block" id="buy-btn">Beli Sekarang</button>
+  </div>
+</div>
+
+<div data-chrome="footer"></div>
+
+<script src="../js/auth.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/script.js"></script>
+<script src="../js/catalog.js"></script>
+</body>
+</html>

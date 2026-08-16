@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — TopUpIn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div data-chrome="header" data-active="admin"></div>
+
+<main class="account-shell">
+  <div class="container">
+    <div class="account-header">
+      <div>
+        <h1>Dashboard Admin</h1>
+        <p class="sub">Kelola pesanan dan pantau performa toko.</p>
+      </div>
+      <a href="../html/index.html" class="btn btn-outline">← Lihat Toko</a>
+    </div>
+
+    <div class="stat-cards four">
+      <div class="stat-card">
+        <div class="label">Total Pesanan</div>
+        <div class="value" id="a-count"></div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Pendapatan</div>
+        <div class="value" id="a-revenue"></div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Perlu Diproses</div>
+        <div class="value" id="a-pending"></div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Transaksi Hari Ini</div>
+        <div class="value" id="a-today"></div>
+      </div>
+    </div>
+
+    <div class="admin-grid">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Daftar Pesanan</h3>
+            <div class="sub">Ubah status pesanan langsung dari kolom status</div>
+          </div>
+        </div>
+        <div class="filter-tabs" id="a-tabs"></div>
+        <table class="tx-table">
+          <thead>
+            <tr><th>ID Order</th><th>Produk</th><th>Qty</th><th>Total</th><th>Status</th><th>Tanggal</th></tr>
+          </thead>
+          <tbody id="admin-body"></tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Produk Terlaris</h3>
+            <div class="sub">Performa 30 hari terakhir</div>
+          </div>
+        </div>
+        <div class="leader-row">
+          <span class="rank">1</span>
+          <div class="grow"><b>Mobile Legends — 344 Diamond</b><div class="sub">Moonton · 1.240 transaksi</div></div>
+          <span class="leader-val">Rp 70,7 jt</span>
+        </div>
+        <div class="leader-row">
+          <span class="rank">2</span>
+          <div class="grow"><b>Free Fire — 140 Diamond</b><div class="sub">Garena · 986 transaksi</div></div>
+          <span class="leader-val">Rp 20,7 jt</span>
+        </div>
+        <div class="leader-row">
+          <span class="rank">3</span>
+          <div class="grow"><b>PUBG Mobile — 660 UC</b><div class="sub">Krafton · 512 transaksi</div></div>
+          <span class="leader-val">Rp 84,5 jt</span>
+        </div>
+        <div class="leader-row">
+          <span class="rank">4</span>
+          <div class="grow"><b>Genshin Impact — 980 Crystal</b><div class="sub">HoYoverse · 340 transaksi</div></div>
+          <span class="leader-val">Rp 84,7 jt</span>
+        </div>
+        <div class="leader-row">
+          <span class="rank">5</span>
+          <div class="grow"><b>Roblox — 400 Robux</b><div class="sub">Roblox Corp · 297 transaksi</div></div>
+          <span class="leader-val">Rp 17,5 jt</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Manajemen Produk</h3>
+          <div class="sub">Tambah, ubah, atau hapus produk — perubahan langsung tampil di katalog</div>
+        </div>
+        <button type="button" class="btn btn-primary" id="product-add">+ Tambah Produk</button>
+      </div>
+      <table class="tx-table">
+        <thead>
+          <tr><th>Nama Produk</th><th>Kategori</th><th>Harga Mulai</th><th>Status</th><th>Aksi</th></tr>
+        </thead>
+        <tbody id="product-body"></tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Manajemen Pengguna</h3>
+          <div class="sub">Daftar pengguna yang terdaftar</div>
+        </div>
+      </div>
+      <table class="tx-table">
+        <thead>
+          <tr><th>Nama</th><th>Email</th><th>Role</th><th>Terdaftar</th><th>Status</th></tr>
+        </thead>
+        <tbody id="user-body"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<div class="modal-overlay hidden" id="product-modal">
+  <div class="modal" style="width:min(460px,100%);">
+    <div class="modal-head">
+      <h3 id="pm-title">Tambah Produk</h3>
+      <button type="button" class="modal-close" id="pm-close" aria-label="Tutup">✕</button>
+    </div>
+    <form id="pm-form" novalidate>
+      <div class="field">
+        <label for="pm-name">Nama produk</label>
+        <div class="input-wrap">
+          <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
+          <input type="text" id="pm-name" placeholder="Contoh: Honor of Kings">
+        </div>
+      </div>
+      <div class="field">
+        <label for="pm-cat">Kategori</label>
+        <div class="input-wrap">
+          <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>
+          <select id="pm-cat">
+            <option value="topup">Top Up</option>
+            <option value="voucher">Voucher</option>
+            <option value="akun">Akun &amp; Item</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="pm-price">Harga mulai (Rp)</label>
+        <div class="input-wrap">
+          <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+          <input type="number" id="pm-price" min="0" step="500" placeholder="10000">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Simpan Produk</button>
+    </form>
+  </div>
+</div>
+
+<div data-chrome="footer"></div>
+
+<script src="../js/auth.js"></script>
+<script>requireRole(['admin']);</script>
+<script src="../js/data.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/script.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>

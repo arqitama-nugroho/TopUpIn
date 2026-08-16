@@ -6,43 +6,11 @@
 <title>Akun Saya — TopUpIn</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-<!-- Utility bar -->
-<div class="utility-bar">
-  <div class="container">
-    <a href="#">❓ Bantuan</a>
-    <a href="#">🇮🇩 ID · IDR</a>
-  </div>
-</div>
-
-<!-- Header -->
-<header class="site-header" style="padding-bottom:18px;">
-  <div class="container">
-    <div class="header-row">
-      <a href="index.html" class="logo"><span class="mark">⚡</span>TopUpIn</a>
-      <form class="search-form" role="search">
-        <input type="search" placeholder="Cari game, diamond, voucher...">
-        <button type="submit">Cari ↵</button>
-      </form>
-      <div class="header-actions">
-        <a href="account.html" class="btn btn-ghost-light">Benjamin Sesko</a>
-      </div>
-    </div>
-  </div>
-</header>
-
-<nav class="nav-row">
-  <div class="container">
-    <a href="index.html">▦ Kategori</a>
-    <a href="index.html">Top Up Game</a>
-    <a href="index.html">Voucher Game</a>
-    <a href="index.html">Akun &amp; Item</a>
-    <a href="#" class="active">Akun Saya</a>
-  </div>
-</nav>
+<div data-chrome="header" data-active="account"></div>
 
 <main class="account-shell">
   <div class="container">
@@ -51,7 +19,7 @@
         <h1>Kelola Akun</h1>
         <p class="sub">Atur profil, keamanan, riwayat transaksi, dan metode pembayaranmu di sini.</p>
       </div>
-      <a href="index.html" class="btn btn-outline">← Kembali Belanja</a>
+      <a href="../html/index.html" class="btn btn-outline">← Kembali Belanja</a>
     </div>
 
     <div class="account-layout">
@@ -61,18 +29,18 @@
           <div class="avatar">RA</div>
           <div class="uname">Benjamin Sesko</div>
           <div class="uemail">Benjamin.Sesko@email.com</div>
-          <span class="tier-pill">⭐ Member Gold</span>
+          <span class="tier-pill"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Member Gold</span>
         </div>
 
         <nav class="account-card side-nav">
-          <button data-tab="overview" class="active"><span class="ic">🏠</span> Ringkasan</button>
-          <button data-tab="profile"><span class="ic">👤</span> Profil</button>
-          <button data-tab="transactions"><span class="ic">🧾</span> Riwayat Transaksi</button>
-          <button data-tab="payment"><span class="ic">💳</span> Metode Pembayaran</button>
-          <button data-tab="security"><span class="ic">🔐</span> Keamanan</button>
-          <button data-tab="notifications"><span class="ic">🔔</span> Notifikasi</button>
+          <button data-tab="overview" class="active"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Ringkasan</button>
+          <button data-tab="profile"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span> Profil</button>
+          <button data-tab="transactions"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span> Riwayat Transaksi</button>
+          <button data-tab="payment"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span> Metode Pembayaran</button>
+          <button data-tab="security"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span> Keamanan</button>
+          <button data-tab="notifications"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span> Notifikasi</button>
           <hr>
-          <button class="danger" onclick="showToast('Kamu telah keluar')"><span class="ic">↩️</span> Keluar</button>
+          <button class="danger" onclick="logout()"><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span> Keluar</button>
         </nav>
       </aside>
 
@@ -146,7 +114,7 @@
                 <div class="field">
                   <label for="p-name">Nama lengkap</label>
                   <div class="input-wrap">
-                    <span class="ic">👤</span>
+                    <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
                     <input type="text" id="p-name" value="Benjamin Sesko">
                   </div>
                 </div>
@@ -162,14 +130,14 @@
                 <div class="field">
                   <label for="p-email">Email</label>
                   <div class="input-wrap">
-                    <span class="ic">✉️</span>
+                    <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
                     <input type="email" id="p-email" value="Benjamin.Sesko@email.com">
                   </div>
                 </div>
                 <div class="field">
                   <label for="p-phone">Nomor HP</label>
                   <div class="input-wrap">
-                    <span class="ic">📱</span>
+                    <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
                     <input type="tel" id="p-phone" value="0812 3456 7890">
                   </div>
                 </div>
@@ -177,7 +145,7 @@
               <div class="field">
                 <label for="p-dob">Tanggal lahir</label>
                 <div class="input-wrap">
-                  <span class="ic">🎂</span>
+                  <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
                   <input type="date" id="p-dob" value="1998-04-12">
                 </div>
               </div>
@@ -291,7 +259,7 @@
               <div class="field">
                 <label for="s-current">Kata sandi saat ini</label>
                 <div class="input-wrap">
-                  <span class="ic">🔒</span>
+                  <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                   <input type="password" id="s-current" placeholder="••••••••">
                   <button type="button" class="toggle-pass">Tampilkan</button>
                 </div>
@@ -300,7 +268,7 @@
                 <div class="field">
                   <label for="s-new">Kata sandi baru</label>
                   <div class="input-wrap">
-                    <span class="ic">🔒</span>
+                    <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                     <input type="password" id="s-new" placeholder="Minimal 8 karakter">
                     <button type="button" class="toggle-pass">Tampilkan</button>
                   </div>
@@ -308,7 +276,7 @@
                 <div class="field">
                   <label for="s-confirm">Konfirmasi</label>
                   <div class="input-wrap">
-                    <span class="ic">🔒</span>
+                    <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                     <input type="password" id="s-confirm" placeholder="Ulangi kata sandi baru">
                     <button type="button" class="toggle-pass">Tampilkan</button>
                   </div>
@@ -394,15 +362,11 @@
   </div>
 </main>
 
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-bottom" style="border-top:none; padding-top:0;">
-      <span>© 2026 TopUpIn. Seluruh hak cipta dilindungi.</span>
-      <span>Dibuat untuk gamer, oleh gamer 🎮</span>
-    </div>
-  </div>
-</footer>
+<div data-chrome="footer"></div>
 
-<script src="script.js"></script>
+<script src="../js/auth.js"></script>
+<script>requireRole(['user', 'admin']);</script>
+<script src="../js/components.js"></script>
+<script src="../js/script.js"></script>
 </body>
 </html>
