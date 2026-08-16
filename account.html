@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akun Saya — TopUpIn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Utility bar -->
+<div class="utility-bar">
+  <div class="container">
+    <a href="#">❓ Bantuan</a>
+    <a href="#">🇮🇩 ID · IDR</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="site-header" style="padding-bottom:18px;">
+  <div class="container">
+    <div class="header-row">
+      <a href="index.html" class="logo"><span class="mark">⚡</span>TopUpIn</a>
+      <form class="search-form" role="search">
+        <input type="search" placeholder="Cari game, diamond, voucher...">
+        <button type="submit">Cari ↵</button>
+      </form>
+      <div class="header-actions">
+        <a href="account.html" class="btn btn-ghost-light">Benjamin Sesko</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-row">
+  <div class="container">
+    <a href="index.html">▦ Kategori</a>
+    <a href="index.html">Top Up Game</a>
+    <a href="index.html">Voucher Game</a>
+    <a href="index.html">Akun &amp; Item</a>
+    <a href="#" class="active">Akun Saya</a>
+  </div>
+</nav>
+
+<main class="account-shell">
+  <div class="container">
+    <div class="account-header">
+      <div>
+        <h1>Kelola Akun</h1>
+        <p class="sub">Atur profil, keamanan, riwayat transaksi, dan metode pembayaranmu di sini.</p>
+      </div>
+      <a href="index.html" class="btn btn-outline">← Kembali Belanja</a>
+    </div>
+
+    <div class="account-layout">
+      <!-- Sidebar -->
+      <aside>
+        <div class="account-card profile-card">
+          <div class="avatar">RA</div>
+          <div class="uname">Benjamin Sesko</div>
+          <div class="uemail">Benjamin.Sesko@email.com</div>
+          <span class="tier-pill">⭐ Member Gold</span>
+        </div>
+
+        <nav class="account-card side-nav">
+          <button data-tab="overview" class="active"><span class="ic">🏠</span> Ringkasan</button>
+          <button data-tab="profile"><span class="ic">👤</span> Profil</button>
+          <button data-tab="transactions"><span class="ic">🧾</span> Riwayat Transaksi</button>
+          <button data-tab="payment"><span class="ic">💳</span> Metode Pembayaran</button>
+          <button data-tab="security"><span class="ic">🔐</span> Keamanan</button>
+          <button data-tab="notifications"><span class="ic">🔔</span> Notifikasi</button>
+          <hr>
+          <button class="danger" onclick="showToast('Kamu telah keluar')"><span class="ic">↩️</span> Keluar</button>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <section>
+
+        <!-- Overview tab -->
+        <div class="account-tab active" id="tab-overview">
+          <div class="stat-cards">
+            <div class="stat-card">
+              <div class="label">Total Transaksi</div>
+              <div class="value">128 <small>kali</small></div>
+            </div>
+            <div class="stat-card">
+              <div class="label">Total Belanja</div>
+              <div class="value">Rp 4,2 <small>juta</small></div>
+            </div>
+            <div class="stat-card">
+              <div class="label">Poin Reward</div>
+              <div class="value">3.150 <small>poin</small></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Transaksi Terbaru</h3>
+                <div class="sub">3 transaksi terakhirmu</div>
+              </div>
+              <button class="btn btn-outline" onclick="document.querySelector('[data-tab=transactions]').click()">Lihat Semua</button>
+            </div>
+            <table class="tx-table">
+              <thead>
+                <tr><th>Item</th><th>Tanggal</th><th>Total</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mobile Legends — 344 Diamond</td>
+                  <td>14 Agu 2026</td>
+                  <td>Rp 89.000</td>
+                  <td><span class="status-pill status-success">Berhasil</span></td>
+                </tr>
+                <tr>
+                  <td>Free Fire — 100 Diamond</td>
+                  <td>10 Agu 2026</td>
+                  <td>Rp 15.500</td>
+                  <td><span class="status-pill status-success">Berhasil</span></td>
+                </tr>
+                <tr>
+                  <td>PUBG Mobile — 660 UC</td>
+                  <td>08 Agu 2026</td>
+                  <td>Rp 165.000</td>
+                  <td><span class="status-pill status-pending">Diproses</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Profile tab -->
+        <div class="account-tab" id="tab-profile">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Informasi Profil</h3>
+                <div class="sub">Perbarui data diri kamu</div>
+              </div>
+            </div>
+            <form data-demo-submit="Profil berhasil diperbarui">
+              <div class="field-row">
+                <div class="field">
+                  <label for="p-name">Nama lengkap</label>
+                  <div class="input-wrap">
+                    <span class="ic">👤</span>
+                    <input type="text" id="p-name" value="Benjamin Sesko">
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="p-username">Username</label>
+                  <div class="input-wrap">
+                    <span class="ic">@</span>
+                    <input type="text" id="p-username" value="benj_s">
+                  </div>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="p-email">Email</label>
+                  <div class="input-wrap">
+                    <span class="ic">✉️</span>
+                    <input type="email" id="p-email" value="Benjamin.Sesko@email.com">
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="p-phone">Nomor HP</label>
+                  <div class="input-wrap">
+                    <span class="ic">📱</span>
+                    <input type="tel" id="p-phone" value="0812 3456 7890">
+                  </div>
+                </div>
+              </div>
+              <div class="field">
+                <label for="p-dob">Tanggal lahir</label>
+                <div class="input-wrap">
+                  <span class="ic">🎂</span>
+                  <input type="date" id="p-dob" value="1998-04-12">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Transactions tab -->
+        <div class="account-tab" id="tab-transactions">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Riwayat Transaksi</h3>
+                <div class="sub">Semua transaksi yang pernah kamu lakukan</div>
+              </div>
+            </div>
+            <table class="tx-table">
+              <thead>
+                <tr><th>ID Order</th><th>Item</th><th>Tanggal</th><th>Total</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-family:var(--font-mono);">TPI-88213</td>
+                  <td>Mobile Legends — 344 Diamond</td>
+                  <td>14 Agu 2026</td>
+                  <td>Rp 89.000</td>
+                  <td><span class="status-pill status-success">Berhasil</span></td>
+                </tr>
+                <tr>
+                  <td style="font-family:var(--font-mono);">TPI-88190</td>
+                  <td>Free Fire — 100 Diamond</td>
+                  <td>10 Agu 2026</td>
+                  <td>Rp 15.500</td>
+                  <td><span class="status-pill status-success">Berhasil</span></td>
+                </tr>
+                <tr>
+                  <td style="font-family:var(--font-mono);">TPI-88147</td>
+                  <td>PUBG Mobile — 660 UC</td>
+                  <td>08 Agu 2026</td>
+                  <td>Rp 165.000</td>
+                  <td><span class="status-pill status-pending">Diproses</span></td>
+                </tr>
+                <tr>
+                  <td style="font-family:var(--font-mono);">TPI-87990</td>
+                  <td>Genshin Impact — 980 Crystal</td>
+                  <td>29 Jul 2026</td>
+                  <td>Rp 249.000</td>
+                  <td><span class="status-pill status-success">Berhasil</span></td>
+                </tr>
+                <tr>
+                  <td style="font-family:var(--font-mono);">TPI-87874</td>
+                  <td>Roblox — 400 Robux</td>
+                  <td>21 Jul 2026</td>
+                  <td>Rp 59.000</td>
+                  <td><span class="status-pill status-failed">Gagal</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Payment tab -->
+        <div class="account-tab" id="tab-payment">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Metode Pembayaran Tersimpan</h3>
+                <div class="sub">Kelola kartu dan e-wallet yang tersambung</div>
+              </div>
+              <button class="btn btn-outline" onclick="showToast('Membuka form tambah metode baru')">+ Tambah Baru</button>
+            </div>
+
+            <div class="pay-method">
+              <div class="pic">VISA</div>
+              <div class="meta">
+                <div class="t1">Visa •••• 4821</div>
+                <div class="t2">Berlaku hingga 09/28</div>
+              </div>
+              <button class="remove">Hapus</button>
+            </div>
+            <div class="pay-method">
+              <div class="pic">GPY</div>
+              <div class="meta">
+                <div class="t1">GoPay — 0812 3456 7890</div>
+                <div class="t2">E-wallet default</div>
+              </div>
+              <button class="remove">Hapus</button>
+            </div>
+            <div class="pay-method">
+              <div class="pic">BCA</div>
+              <div class="meta">
+                <div class="t1">Virtual Account BCA</div>
+                <div class="t2">Ditambahkan 2 Jun 2026</div>
+              </div>
+              <button class="remove">Hapus</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security tab -->
+        <div class="account-tab" id="tab-security">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Ubah Kata Sandi</h3>
+                <div class="sub">Gunakan kata sandi yang kuat dan unik</div>
+              </div>
+            </div>
+            <form data-demo-submit="Kata sandi berhasil diperbarui">
+              <div class="field">
+                <label for="s-current">Kata sandi saat ini</label>
+                <div class="input-wrap">
+                  <span class="ic">🔒</span>
+                  <input type="password" id="s-current" placeholder="••••••••">
+                  <button type="button" class="toggle-pass">Tampilkan</button>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="s-new">Kata sandi baru</label>
+                  <div class="input-wrap">
+                    <span class="ic">🔒</span>
+                    <input type="password" id="s-new" placeholder="Minimal 8 karakter">
+                    <button type="button" class="toggle-pass">Tampilkan</button>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="s-confirm">Konfirmasi</label>
+                  <div class="input-wrap">
+                    <span class="ic">🔒</span>
+                    <input type="password" id="s-confirm" placeholder="Ulangi kata sandi baru">
+                    <button type="button" class="toggle-pass">Tampilkan</button>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Perbarui Kata Sandi</button>
+            </form>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Keamanan Tambahan</h3>
+                <div class="sub">Lapisan perlindungan ekstra untuk akunmu</div>
+              </div>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="t1">Verifikasi Dua Langkah (2FA)</div>
+                <div class="t2">Kode OTP dikirim ke nomor HP saat masuk</div>
+              </div>
+              <label class="switch"><input type="checkbox" checked><span class="track"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="t1">Notifikasi Login Perangkat Baru</div>
+                <div class="t2">Dapatkan email saat akun diakses dari perangkat baru</div>
+              </div>
+              <label class="switch"><input type="checkbox" checked><span class="track"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="t1">Kunci Transaksi dengan PIN</div>
+                <div class="t2">Wajibkan PIN 6 digit untuk setiap pembelian</div>
+              </div>
+              <label class="switch"><input type="checkbox"><span class="track"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications tab -->
+        <div class="account-tab" id="tab-notifications">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Preferensi Notifikasi</h3>
+                <div class="sub">Atur pemberitahuan yang ingin kamu terima</div>
+              </div>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="t1">Status Transaksi</div>
+                <div class="t2">Pemberitahuan saat pesanan diproses atau selesai</div>
+              </div>
+              <label class="switch"><input type="checkbox" checked><span class="track"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="t1">Promo &amp; Diskon</div>
+                <div class="t2">Info penawaran khusus dan kupon terbaru</div>
+              </div>
+              <label class="switch"><input type="checkbox" checked><span class="track"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="t1">Rilis Game Baru</div>
+                <div class="t2">Update ketika game atau item baru tersedia</div>
+              </div>
+              <label class="switch"><input type="checkbox"><span class="track"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <div class="t1">Newsletter Mingguan</div>
+                <div class="t2">Rangkuman aktivitas dan tips top up</div>
+              </div>
+              <label class="switch"><input type="checkbox"><span class="track"></span></label>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-bottom" style="border-top:none; padding-top:0;">
+      <span>© 2026 TopUpIn. Seluruh hak cipta dilindungi.</span>
+      <span>Dibuat untuk gamer, oleh gamer 🎮</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

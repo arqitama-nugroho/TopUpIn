@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar — TopUpIn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="auth-shell">
+  <!-- Visual side -->
+  <aside class="auth-visual">
+    <a href="index.html" class="logo"><span class="mark">⚡</span>TopUpIn</a>
+    <div class="quote">
+      <h2>Gabung dan dapatkan bonus saldo Rp10.000 untuk transaksi pertamamu.</h2>
+      <p>Buat akun gratis untuk menyimpan progres, memantau transaksi, dan mengakses promo member baru.</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><b>2,4 jt+</b><span>Transaksi selesai</span></div>
+      <div class="stat"><b>180+</b><span>Game &amp; voucher</span></div>
+      <div class="stat"><b>4.9/5</b><span>Rating pengguna</span></div>
+    </div>
+  </aside>
+
+  <!-- Form side -->
+  <div class="auth-panel">
+    <div class="auth-card">
+      <div class="eyebrow">Gabung TopUpIn</div>
+      <h1>Buat akun baru</h1>
+      <p class="sub">Sudah punya akun? <a href="login.html" class="link-accent">Masuk di sini</a></p>
+
+      <form data-demo-submit="Akun berhasil dibuat! Selamat bergabung.">
+        <div class="field">
+          <label for="reg-name">Nama lengkap</label>
+          <div class="input-wrap">
+            <span class="ic">👤</span>
+            <input type="text" id="reg-name" placeholder="Nama sesuai identitas" required>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="reg-email">Email</label>
+            <div class="input-wrap">
+              <span class="ic">✉️</span>
+              <input type="email" id="reg-email" placeholder="nama@email.com" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="reg-phone">Nomor HP</label>
+            <div class="input-wrap">
+              <span class="ic">📱</span>
+              <input type="tel" id="reg-phone" placeholder="08xx xxxx xxxx" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="reg-password">Kata sandi</label>
+          <div class="input-wrap">
+            <span class="ic">🔒</span>
+            <input type="password" id="reg-password" placeholder="Minimal 8 karakter" required>
+            <button type="button" class="toggle-pass">Tampilkan</button>
+          </div>
+          <div class="strength-meter">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+          </div>
+          <div class="hint strength-label"></div>
+        </div>
+
+        <div class="field">
+          <label for="reg-confirm">Konfirmasi kata sandi</label>
+          <div class="input-wrap">
+            <span class="ic">🔒</span>
+            <input type="password" id="reg-confirm" placeholder="Ulangi kata sandi" required>
+            <button type="button" class="toggle-pass">Tampilkan</button>
+          </div>
+        </div>
+
+        <div class="form-row-between" style="margin-bottom:20px;">
+          <label class="checkbox-row">
+            <input type="checkbox" required>
+            Saya menyetujui <a href="#" class="link-accent">Syarat &amp; Ketentuan</a> dan <a href="#" class="link-accent">Kebijakan Privasi</a>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Buat Akun</button>
+      </form>
+
+      <div class="divider">atau daftar dengan</div>
+      <div class="social-row">
+        <button type="button" class="social-btn" onclick="showToast('Menghubungkan ke Google...')">G Google</button>
+        <button type="button" class="social-btn" onclick="showToast('Menghubungkan ke Facebook...')">f Facebook</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

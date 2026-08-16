@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masuk — TopUpIn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="auth-shell">
+  <!-- Visual side -->
+  <aside class="auth-visual">
+    <a href="index.html" class="logo"><span class="mark">⚡</span>TopUpIn</a>
+    <div class="quote">
+      <h2>Top up game favoritmu, selesai dalam hitungan menit.</h2>
+      <p>Masuk untuk melihat riwayat transaksi, menyimpan metode pembayaran, dan mendapatkan promo khusus member.</p>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><b>2,4 jt+</b><span>Transaksi selesai</span></div>
+      <div class="stat"><b>180+</b><span>Game &amp; voucher</span></div>
+      <div class="stat"><b>4.9/5</b><span>Rating pengguna</span></div>
+    </div>
+  </aside>
+
+  <!-- Form side -->
+  <div class="auth-panel">
+    <div class="auth-card">
+      <div class="eyebrow">Selamat datang kembali</div>
+      <h1>Masuk ke akunmu</h1>
+      <p class="sub">Belum punya akun? <a href="register.html" class="link-accent">Daftar di sini</a></p>
+
+      <form data-demo-submit="Berhasil masuk, mengarahkan ke akun...">
+        <div class="field">
+          <label for="login-email">Email atau nomor HP</label>
+          <div class="input-wrap">
+            <span class="ic">✉️</span>
+            <input type="text" id="login-email" placeholder="nama@email.com" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="login-password">Kata sandi</label>
+          <div class="input-wrap">
+            <span class="ic">🔒</span>
+            <input type="password" id="login-password" placeholder="Masukkan kata sandi" required>
+            <button type="button" class="toggle-pass">Tampilkan</button>
+          </div>
+        </div>
+
+        <div class="form-row-between">
+          <label class="checkbox-row">
+            <input type="checkbox">
+            Ingat saya
+          </label>
+          <a href="#" class="link-accent">Lupa kata sandi?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+      </form>
+
+      <div class="divider">atau masuk dengan</div>
+      <div class="social-row">
+        <button type="button" class="social-btn" onclick="showToast('Menghubungkan ke Google...')">G Google</button>
+        <button type="button" class="social-btn" onclick="showToast('Menghubungkan ke Facebook...')">f Facebook</button>
+      </div>
+
+      <p class="auth-foot">Dengan masuk, kamu menyetujui <a href="#" class="link-accent">Syarat &amp; Ketentuan</a> TopUpIn.</p>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
