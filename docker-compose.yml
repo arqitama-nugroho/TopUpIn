@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: topupgame_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: topup_admin
+      POSTGRES_PASSWORD: POSTGRES_PASSWORD_PLACEHOLDER
+      POSTGRES_DB: topupgame_db
+    ports:
+      - "5433:5432"    # host:container -> akses dari luar container pakai 5433
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U topup_admin -d topupgame_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Tambahkan service backend & frontend di sini nanti, contoh:
+  #
+  # backend:
+  #   build: ./backend
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   environment:
+  #     DB_HOST: db          # nama service, BUKAN localhost
+  #     DB_PORT: 5432        # port internal container, BUKAN 5433
+  #     DB_NAME: topupgame_db
+  #     DB_USER: topup_admin
+  #     DB_PASSWORD: POSTGRES_PASSWORD_PLACEHOLDER
+  #   ports:
+  #     - "3000:3000"
+
+volumes:
+  pgdata:
