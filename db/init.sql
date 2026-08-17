@@ -109,6 +109,12 @@ INSERT INTO users (username, email, password_hash, full_name, phone_number, role
 INSERT INTO users (username, email, password_hash, full_name, role) VALUES
 ('admin', 'admin@topupgame.local', 'CTF{PLACEHOLDER_LIHAT_ENV}', 'Administrator', 'admin');
 
+-- Orders (contoh riwayat transaksi untuk user_test, id=1)
+INSERT INTO orders (id, order_code, user_id, game_user_id, total_amount, status, created_at) VALUES
+(1, 'TPI-88213', 1, '1122334455', 20000, 'completed', now() - interval '3 days'),
+(2, 'TPI-88190', 1, '9988776655', 39000, 'completed', now() - interval '7 days'),
+(3, 'TPI-88147', 1, '4455667788', 15000, 'pending',  now() - interval '9 days'),
+(4, 'TPI-87990', 1, '5566778899', 12000, 'failed',   now() - interval '19 days');
 
 -- Order items
 INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase, description) VALUES
