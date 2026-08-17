@@ -67,6 +67,14 @@ CREATE TABLE payment_methods (
     is_default BOOLEAN DEFAULT false
 );
 
+-- 7. TABEL CTF_SECRET
+CREATE TABLE ctf_secret (
+    id SERIAL PRIMARY KEY,
+    flag VARCHAR(255) NOT NULL
+);
+
+INSERT INTO ctf_secret (flag) VALUES ('CTF{PLACEHOLDER_LIHAT_ENV}');
+
 -- =====================================================
 -- INDEXING (untuk efisiensi query)
 -- =====================================================
@@ -96,8 +104,6 @@ INSERT INTO products (game_id, name, denomination, price) VALUES
 INSERT INTO users (username, email, password_hash, full_name, role) VALUES
 ('user_test', 'user@example.com', '$2b$10$examplehashplaceholder', 'Test User', 'user');
 
--- Admin: kredensial default hardcoded (SENGAJA DITANAM sebagai
--- vulnerability sesuai Worksheet Assessment 1 - Blue Team.
--- JANGAN dipakai di environment produksi/non-assessment)
+-- Admin
 INSERT INTO users (username, email, password_hash, full_name, role) VALUES
-('admin', 'admin@topupgame.local', 'ADMIN_PASSWORD_PLACEHOLDER', 'Administrator', 'admin');
+('admin', 'admin@topupgame.local', 'CTF{PLACEHOLDER_LIHAT_ENV}', 'Administrator', 'admin');

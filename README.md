@@ -62,7 +62,7 @@ Detail skema lengkap (kolom, tipe data, constraint) ada di file [`db/init.sql`](
 
 - Nama database: `topupgame_db`
 - Username: `topup_admin`
-- Password: `POSTGRES_PASSWORD_PLACEHOLDER`
+- Password: lihat file `.env` (tidak ikut ter-commit; nilai placeholder `DB_PASSWORD_PLACEHOLDER` di kode)
 
 > Catatan untuk backend: gunakan `db:5432` sebagai connection string bila backend juga didefinisikan sebagai service di `docker-compose.yml` yang sama. Port `5433` hanya berlaku untuk akses dari luar Docker.
 
@@ -71,7 +71,7 @@ Detail skema lengkap (kolom, tipe data, constraint) ada di file [`db/init.sql`](
 | Username | Password | Role |
 |---|---|---|
 | `user_test` | (hashed, placeholder) | user |
-| `admin` | `ADMIN_PASSWORD_PLACEHOLDER` | admin |
+| `admin` | lihat `.env` (`ADMIN_PASSWORD`) / seed `db/init.sql` (placeholder) | admin |
 
 ---
 
@@ -79,7 +79,7 @@ Detail skema lengkap (kolom, tipe data, constraint) ada di file [`db/init.sql`](
 
 Sesuai pembagian kelompok, kategori B dan C (Dependency rentan, file permission, port exposure) serta sebagian kategori A (hardcoded credential) bersinggungan dengan bagian database:
 
-1. **Hardcoded Credential/Secret** — Password akun admin (`ADMIN_PASSWORD_PLACEHOLDER`) disimpan dalam bentuk **plaintext** di seed data `db/init.sql`, bukan di-hash. Lokasi: tabel `users`, kolom `password_hash`, baris admin.
+1. **Hardcoded Credential/Secret** — Password akun admin disimpan dalam bentuk **plaintext** di seed data `db/init.sql` (nilai asli di-inject dari environment saat init, lihat `db/z-init-flags.sh`), bukan di-hash. Lokasi: tabel `users`, kolom `password_hash`, baris admin.
 2. **Port Exposure** — Port PostgreSQL di-*expose* ke host (`5433:5432`) tanpa pembatasan firewall/network segmentation, sehingga database berpotensi dapat diakses langsung dari luar layer aplikasi.
 
 Detail teknis dan dampak masing-masing vulnerability didokumentasikan lebih lanjut di **Worksheet Assessment 1 (Blue Team)** — belum di-upload ke repo ini, mohon dilengkapi sebelum deadline pengumpulan.

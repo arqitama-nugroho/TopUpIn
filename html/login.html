@@ -66,15 +66,40 @@
   </div>
 </div>
 
+<script src="../js/config.js"></script>
 <script src="../js/auth.js"></script>
 <script src="../js/script.js"></script>
 <script>
-document.getElementById('login-form').addEventListener('submit', function (e) {
+document.getElementById('login-form').addEventListener('submit', async function (e) {
   e.preventDefault();
+  
   const email = document.getElementById('login-email').value;
-  setRole(email.toLowerCase().includes('admin') ? 'admin' : 'user');
-  showToast('Berhasil masuk sebagai ' + (getRole() === 'admin' ? 'Admin' : 'User'));
-  setTimeout(() => { location.href = '../html/index.html'; }, 600);
+  const password = document.getElementById('login-password').value;
+
+  try {
+    const response = await fetch('http://localhost:3000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: email, password: password })
+    });
+
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      // Menggunakan role asli dari database (admin/user)
+      setRole(data.user.role); 
+      showToast('Berhasil masuk sebagai ' + (data.user.role === 'admin' ? 'Admin' : 'User'));
+      
+      // Arahkan ke beranda setelah berhasil
+      setTimeout(() => { location.href = '../html/index.html'; }, 1000);
+    } else {
+      showToast('Gagal: ' + data.message);
+    }
+  } catch (error) {
+    showToast('Error: Tidak dapat terhubung ke server backend');
+  }
 });
 </script>
 </body>

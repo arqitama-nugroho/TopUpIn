@@ -52,7 +52,7 @@
         <div class="filter-tabs" id="a-tabs"></div>
         <table class="tx-table">
           <thead>
-            <tr><th>ID Order</th><th>Produk</th><th>Qty</th><th>Total</th><th>Status</th><th>Tanggal</th></tr>
+            <tr><th>ID Order</th><th>User ID</th><th>Game User ID</th><th>Total</th><th>Status</th><th>Tanggal</th></tr>
           </thead>
           <tbody id="admin-body"></tbody>
         </table>
@@ -91,6 +91,22 @@
           <span class="leader-val">Rp 17,5 jt</span>
         </div>
       </div>
+    </div> 
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Manajemen Game (Kategori)</h3>
+          <div class="sub">Tambah, ubah, atau hapus daftar game yang tersedia di sistem</div>
+        </div>
+        <button type="button" class="btn btn-primary" id="game-add">+ Tambah Game</button>
+      </div>
+      <table class="tx-table">
+        <thead>
+          <tr><th>ID</th><th>Nama Game</th><th>Publisher</th><th>Status</th><th>Aksi</th></tr>
+        </thead>
+        <tbody id="game-body"></tbody>
+      </table>
     </div>
 
     <div class="panel">
@@ -137,17 +153,16 @@
         <label for="pm-name">Nama produk</label>
         <div class="input-wrap">
           <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
-          <input type="text" id="pm-name" placeholder="Contoh: Honor of Kings">
+          <input type="text" id="pm-name" placeholder="Contoh: 50 Diamonds">
         </div>
       </div>
+      <!-- Kategori yang sudah dirapikan dengan tautan Tambah Game -->
       <div class="field">
-        <label for="pm-cat">Kategori</label>
+        <label for="pm-cat">Game / Kategori</label>
         <div class="input-wrap">
           <span class="ic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>
-          <select id="pm-cat">
-            <option value="topup">Top Up</option>
-            <option value="voucher">Voucher</option>
-            <option value="akun">Akun &amp; Item</option>
+          <select id="pm-cat" required>
+            <option value="">-- Pilih Game --</option>
           </select>
         </div>
       </div>
@@ -163,13 +178,377 @@
   </div>
 </div>
 
+<div class="modal-overlay hidden" id="game-modal">
+  <div class="modal" style="width:min(460px,100%);">
+    <div class="modal-head">
+      <h3 id="gm-title">Tambah Game</h3>
+      <button type="button" class="modal-close" id="gm-close" aria-label="Tutup">✕</button>
+    </div>
+    <form id="gm-form" novalidate>
+      <div class="field">
+        <label for="gm-name">Nama Game</label>
+        <div class="input-wrap">
+          <span class="ic">🎮</span>
+          <input type="text" id="gm-name" placeholder="Contoh: Valorant" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="gm-pub">Publisher</label>
+        <div class="input-wrap">
+          <span class="ic">🏢</span>
+          <input type="text" id="gm-pub" placeholder="Contoh: Riot Games" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Simpan Game</button>
+    </form>
+  </div>
+</div>
+
 <div data-chrome="footer"></div>
 
+<script src="../js/config.js"></script>
 <script src="../js/auth.js"></script>
 <script>requireRole(['admin']);</script>
 <script src="../js/data.js"></script>
 <script src="../js/components.js"></script>
 <script src="../js/script.js"></script>
 <script src="../js/admin.js"></script>
+
+<!-- Script Terintegrasi Penuh -->
+<script>
+let currentEditId = null;
+
+let currentGameEditId = null;
+
+// READ: Memuat daftar game ke tabel manajemen game
+async function loadAdminGames() {
+    try {
+        const response = await fetch('http://localhost:3000/api/games');
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            const tbody = document.getElementById('game-body');
+            tbody.innerHTML = ''; 
+            
+            result.data.forEach(game => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-family:var(--font-mono);">${game.id}</td>
+                    <td><b>${game.name}</b></td>
+                    <td>${game.publisher || '-'}</td>
+                    <td><span class="status-pill ${game.is_active === false ? 'status-failed' : 'status-success'}">${game.is_active === false ? 'Nonaktif' : 'Aktif'}</span></td>
+                    <td>
+                        <div style="display:flex; gap:8px;">
+                            <button class="btn btn-outline" onclick="openEditGameModal(${game.id}, '${game.name}', '${game.publisher || ''}')" style="color: var(--blue-600); border-color: var(--blue-600);">Edit</button>
+                            <button class="btn btn-outline" onclick="deleteGame(${game.id})" style="color: red; border-color: red;">Hapus</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    } catch (error) { console.error("Gagal memuat game:", error); }
+}
+
+// Buka Modal Tambah Game
+document.getElementById('game-add').addEventListener('click', () => {
+    currentGameEditId = null;
+    document.getElementById('gm-form').reset();
+    document.getElementById('gm-title').textContent = 'Tambah Game Baru';
+    document.getElementById('game-modal').classList.remove('hidden');
+});
+
+// Tutup Modal Game
+document.getElementById('gm-close').addEventListener('click', () => {
+    document.getElementById('game-modal').classList.add('hidden');
+});
+
+// Buka Modal Edit Game
+function openEditGameModal(id, name, publisher) {
+    currentGameEditId = id;
+    document.getElementById('gm-name').value = name;
+    document.getElementById('gm-pub').value = publisher;
+    document.getElementById('gm-title').textContent = 'Edit Game';
+    document.getElementById('game-modal').classList.remove('hidden');
+}
+
+// CREATE / UPDATE Form Submit Game
+const gmForm = document.getElementById('gm-form');
+if (gmForm) {
+    gmForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('gm-name').value;
+        const publisher = document.getElementById('gm-pub').value;
+
+        try {
+            let url = 'http://localhost:3000/api/games';
+            let method = 'POST';
+
+            if (currentGameEditId !== null) {
+                url = `http://localhost:3000/api/games/${currentGameEditId}`;
+                method = 'PUT';
+            }
+
+            const response = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, publisher })
+            });
+            
+            const result = await response.json();
+            if (result.status === 'success') {
+                showToast(currentGameEditId ? 'Game berhasil diperbarui!' : 'Game berhasil ditambahkan!');
+                document.getElementById('game-modal').classList.add('hidden');
+                loadAdminGames();       // Refresh tabel game
+                loadGamesForDropdown(); // Refresh dropdown di form produk juga
+            } else {
+                showToast('Gagal: ' + result.message);
+            }
+        } catch (error) { showToast('Error saat menyimpan game'); }
+    });
+}
+
+// DELETE: Hapus Game
+async function deleteGame(id) {
+    if (!confirm('Yakin ingin menghapus game ini? (Produk yang terkait mungkin akan ikut terpengaruh)')) return;
+    try {
+        const response = await fetch(`http://localhost:3000/api/games/${id}`, { method: 'DELETE' });
+        const result = await response.json();
+        if (result.status === 'success') {
+            showToast('Game berhasil dihapus');
+            loadAdminGames();
+            loadGamesForDropdown();
+        } else {
+            showToast('Gagal: ' + result.message);
+        }
+    } catch (error) { showToast('Error saat menghapus game'); }
+}
+
+// Format tanggal berdasarkan kolom created_at pada database
+function formatDate(value) {
+    if (!value) return '-';
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return value;
+    return d.toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' });
+}
+
+// Memuat daftar pengguna
+async function loadAdminUsers() {
+    try {
+        const response = await fetch('http://localhost:3000/api/users');
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            const tbody = document.getElementById('user-body');
+            tbody.innerHTML = '';
+            
+            result.data.forEach(user => {
+                const roleBadge = user.role === 'admin' 
+                    ? '<span class="status-pill" style="background:#ffe9f2; color:#e0448c;">Admin</span>' 
+                    : 'User';
+                const displayName = user.full_name || user.username; 
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${displayName}</b></td>
+                        <td>${user.email}</td>
+                        <td>${roleBadge}</td>
+                        <td>${formatDate(user.created_at)}</td>
+                        <td><span class="status-pill status-success">Aktif</span></td>
+                    </tr>
+                `;
+            });
+        }
+    } catch (error) { console.error("Gagal memuat pengguna:", error); }
+}
+
+// Memuat daftar pesanan
+async function loadAdminOrders() {
+    try {
+        const response = await fetch('http://localhost:3000/api/orders');
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            const tbody = document.getElementById('admin-body');
+            tbody.innerHTML = '';
+            
+            if (result.data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#64748b; padding:20px;">Belum ada pesanan masuk</td></tr>';
+                return;
+            }
+            
+            result.data.forEach(order => {
+                let statusClass = 'status-pending';
+                if (order.status === 'success') statusClass = 'status-success';
+                if (order.status === 'failed' || order.status === 'cancelled') statusClass = 'status-failed';
+                 if (order.status === 'completed' || order.status === 'success') statusClass = 'status-success';
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td style="font-family:var(--font-mono); font-weight:600;">${order.order_code}</td>
+                        <td>${order.user_id ?? '-'}</td>
+                        <td>${order.game_user_id || '-'}</td>
+                        <td>Rp ${parseInt(order.total_amount || 0).toLocaleString('id-ID')}</td>
+                        <td><span class="status-pill ${statusClass}">${order.status.toUpperCase()}</span></td>
+                        <td>${formatDate(order.created_at)}</td>
+                    </tr>
+                `;
+            });
+        }
+    } catch (error) { console.error("Gagal memuat pesanan:", error); }
+}
+
+// Tambah Game menggunakan Prompt
+async function addNewGame() {
+    const gameName = prompt("Masukkan nama Game baru (Misal: Valorant):");
+    if (!gameName) return; 
+    const publisher = prompt("Masukkan nama Publisher/Developer (opsional, misal: Riot Games):") || "Unknown";
+
+    try {
+        const response = await fetch('http://localhost:3000/api/games', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: gameName, publisher: publisher })
+        });
+        
+        const result = await response.json();
+        if (result.status === 'success') {
+            showToast('Game baru berhasil ditambahkan!');
+            loadGamesForDropdown(); 
+        } else {
+            showToast('Gagal menambahkan game: ' + result.message);
+        }
+    } catch (error) { showToast('Error saat menghubungi server'); }
+}
+
+// Memuat daftar game untuk dropdown kategori
+async function loadGamesForDropdown() {
+    try {
+        const response = await fetch('http://localhost:3000/api/games');
+        const result = await response.json();
+        if (result.status === 'success') {
+            const select = document.getElementById('pm-cat');
+            select.innerHTML = '<option value="">-- Pilih Game --</option>';
+            result.data.forEach(game => {
+                select.innerHTML += `<option value="${game.id}">${game.name}</option>`;
+            });
+        }
+    } catch (error) { console.error("Gagal memuat game:", error); }
+}
+
+// READ: Memuat daftar produk
+async function loadAdminProducts() {
+    try {
+        const response = await fetch('http://localhost:3000/api/products');
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            const tbody = document.getElementById('product-body');
+            tbody.innerHTML = ''; 
+            
+            result.data.forEach(product => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${product.denomination}</td>
+                    <td>${product.game_name}</td>
+                    <td>Rp ${parseInt(product.price).toLocaleString('id-ID')}</td>
+                    <td><span class="status-pill ${product.stock_status === false ? 'status-failed' : 'status-success'}">${product.stock_status === false ? 'Habis' : 'Tersedia'}</span></td>
+                    <td>
+                        <div style="display:flex; gap:8px;">
+                            <button class="btn btn-outline" onclick="openEditModal(${product.id}, '${product.denomination}', ${product.price}, ${product.game_id || 1})" style="color: var(--blue-600); border-color: var(--blue-600);">Edit</button>
+                            <button class="btn btn-outline" onclick="deleteProduct(${product.id})" style="color: red; border-color: red;">Hapus</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    } catch (error) { console.error("Gagal memuat produk:", error); }
+}
+
+// Persiapan Modal untuk Tambah Produk
+document.getElementById('product-add').addEventListener('click', () => {
+    currentEditId = null;
+    document.getElementById('pm-form').reset();
+    document.getElementById('pm-title').textContent = 'Tambah Produk';
+    document.getElementById('product-modal').classList.remove('hidden');
+});
+
+// Persiapan Modal untuk Edit Produk
+function openEditModal(id, name, price, gameId) {
+    currentEditId = id;
+    document.getElementById('pm-name').value = name;
+    document.getElementById('pm-price').value = price;
+    document.getElementById('pm-cat').value = gameId; 
+    document.getElementById('pm-title').textContent = 'Edit Produk';
+    document.getElementById('product-modal').classList.remove('hidden');
+}
+
+// CREATE / UPDATE: Menangani Submit Form Produk
+const pmForm = document.getElementById('pm-form');
+if (pmForm) {
+    pmForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('pm-name').value;
+        const price = document.getElementById('pm-price').value;
+        const gameId = document.getElementById('pm-cat').value; 
+
+        if (!gameId) {
+            showToast('Silakan pilih Game / Kategori terlebih dahulu!');
+            return;
+        }
+
+        const payload = { game_id: gameId, name: name, denomination: name, price: price };
+
+        try {
+            let url = 'http://localhost:3000/api/products';
+            let method = 'POST'; 
+
+            if (currentEditId !== null) {
+                url = `http://localhost:3000/api/products/${currentEditId}`;
+                method = 'PUT';
+            }
+
+            const response = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            
+            const result = await response.json();
+            if (result.status === 'success') {
+                showToast(currentEditId ? 'Produk diperbarui!' : 'Produk ditambahkan!');
+                document.getElementById('pm-close').click();
+                loadAdminProducts(); 
+            } else {
+                showToast('Gagal: ' + result.message);
+            }
+        } catch (error) { showToast('Error saat menyimpan produk'); }
+    });
+}
+
+// DELETE: Menghapus produk
+async function deleteProduct(id) {
+    if (!confirm('Yakin ingin menghapus produk ini?')) return;
+    try {
+        const response = await fetch(`http://localhost:3000/api/products/${id}`, { method: 'DELETE' });
+        const result = await response.json();
+        if (result.status === 'success') {
+            showToast('Produk dihapus');
+            loadAdminProducts(); 
+        } else { showToast('Gagal: ' + result.message); }
+    } catch (error) { showToast('Error saat menghapus produk'); }
+}
+
+// Inisialisasi Data saat Halaman Dibuka
+document.addEventListener('DOMContentLoaded', () => {
+    loadAdminGames();
+    loadGamesForDropdown();
+    loadAdminProducts();
+    loadAdminUsers();
+    loadAdminOrders();
+});
+</script>
 </body>
 </html>

@@ -20,3 +20,6 @@ Thumbs.db
 # Build files
 dist/
 build/
+
+# CTF solution (jangan ikut ter-commit)
+CTF-WALKTHROUGH.md

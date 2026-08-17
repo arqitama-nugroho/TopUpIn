@@ -2,8 +2,6 @@
   const NAV_LINKS = [
     ['▦ Kategori', 'index.html', 'home'],
     ['Top Up Game', 'catalog.html?cat=topup', 'topup'],
-    ['Voucher Game', 'catalog.html?cat=voucher', 'voucher'],
-    ['Akun & Item', 'catalog.html?cat=akun', 'akun'],
     ['Riwayat Transaksi', 'history.html', 'history'],
     ['Akun Saya', 'account.html', 'account'],
     ['Admin', 'admin.html', 'admin'],
@@ -58,8 +56,6 @@
               <ul>
                 <li><a href="../html/catalog.html">Katalog Produk</a></li>
                 <li><a href="../html/catalog.html?cat=topup">Top Up Game</a></li>
-                <li><a href="../html/catalog.html?cat=voucher">Voucher Digital</a></li>
-                <li><a href="../html/catalog.html?cat=akun">Akun &amp; Item</a></li>
               </ul>
             </div>
             <div>

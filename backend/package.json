@@ -1,0 +1,11 @@
+{
+  "name": "topupin-backend",
+  "version": "1.0.0",
+  "description": "Backend API TopUpIn",
+  "main": "app.js",
+  "dependencies": {
+    "express": "4.16.0",
+    "pg": "8.11.3",
+    "cors": "^2.8.5"
+  }
+}

@@ -1,9 +1,9 @@
 const ROLE_KEY = 'role';
 
 const NAV_BY_ROLE = {
-  guest: ['home', 'topup', 'voucher', 'akun'],
-  user: ['home', 'topup', 'voucher', 'akun', 'history', 'account'],
-  admin: ['home', 'topup', 'voucher', 'akun', 'history', 'account', 'admin'],
+  guest: ['home', 'topup'],
+  user: ['home', 'topup', 'history', 'account'],
+  admin: ['home', 'topup', 'history', 'account', 'admin'],
 };
 
 function getRole() {

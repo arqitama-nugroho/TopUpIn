@@ -7,13 +7,14 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: topup_admin
-      POSTGRES_PASSWORD: POSTGRES_PASSWORD_PLACEHOLDER
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: topupgame_db
     ports:
       - "5433:5432"    # host:container -> akses dari luar container pakai 5433
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/z-init-flags.sh:/docker-entrypoint-initdb.d/z-init-flags.sh
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U topup_admin -d topupgame_db"]
       interval: 5s
@@ -22,19 +23,22 @@ services:
 
   # Tambahkan service backend & frontend di sini nanti, contoh:
   #
-  # backend:
-  #   build: ./backend
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #   environment:
-  #     DB_HOST: db          # nama service, BUKAN localhost
-  #     DB_PORT: 5432        # port internal container, BUKAN 5433
-  #     DB_NAME: topupgame_db
-  #     DB_USER: topup_admin
-  #     DB_PASSWORD: POSTGRES_PASSWORD_PLACEHOLDER
-  #   ports:
-  #     - "3000:3000"
-
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: topupgame_db
+      DB_USER: topup_admin
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      API_KEY: ${API_KEY}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      CTF_FLAG: ${CTF_FLAG}
+    ports:
+      - "3000:3000"
 volumes:
   pgdata:

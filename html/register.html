@@ -32,7 +32,7 @@
       <h1>Buat akun baru</h1>
       <p class="sub">Sudah punya akun? <a href="../html/login.html" class="link-accent">Masuk di sini</a></p>
 
-      <form data-demo-submit="Akun berhasil dibuat! Selamat bergabung.">
+      <form id="register-form">
         <div class="field">
           <label for="reg-name">Nama lengkap</label>
           <div class="input-wrap">
@@ -93,6 +93,47 @@
   </div>
 </div>
 
+<script src="../js/config.js"></script>
 <script src="../js/script.js"></script>
+<script>
+document.getElementById('register-form').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  
+  const name = document.getElementById('reg-name').value;
+  const email = document.getElementById('reg-email').value;
+  const phone = document.getElementById('reg-phone').value;
+  const password = document.getElementById('reg-password').value;
+  const confirmPassword = document.getElementById('reg-confirm').value;
+
+  // Validasi sederhana di frontend
+  if (password !== confirmPassword) {
+      showToast('Gagal: Konfirmasi kata sandi tidak cocok!');
+      return;
+  }
+
+  try {
+    // Menembak ke API Register Backend Node.js
+    const response = await fetch('http://localhost:3000/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, email, phone, password })
+    });
+
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      showToast('Akun berhasil dibuat! Mengarahkan ke login...');
+      // Arahkan ke halaman login setelah berhasil daftar
+      setTimeout(() => { location.href = '../html/login.html'; }, 1500);
+    } else {
+      showToast('Gagal: ' + data.message);
+    }
+  } catch (error) {
+    showToast('Error: Tidak dapat terhubung ke server backend');
+  }
+});
+</script>
 </body>
 </html>
