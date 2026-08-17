@@ -82,10 +82,12 @@ Sesuai pembagian kelompok, kategori B dan C (Dependency rentan, file permission,
 1. **Hardcoded Credential/Secret** — Password akun admin disimpan dalam bentuk **plaintext** di seed data `db/init.sql` (nilai asli di-inject saat init, lihat `db/z-init-flags.sh`), bukan di-hash. Lokasi: tabel `users`, kolom `password_hash`, baris admin.
 2. **Sensitive Data Exposure (Debug Endpoint)** — `GET /api/debug/config` membocorkan konfigurasi termasuk `JWT_SECRET` (flag) tanpa autentikasi khusus (cukup API key). Lokasi: `backend/app.js`.
 3. **Port Exposure** — Port PostgreSQL di-*expose* ke host (`5433:5432`) tanpa pembatasan firewall/network segmentation, sehingga database berpotensi dapat diakses langsung dari luar layer aplikasi. 📄 [Dokumentasi lengkap](docs/vulnerability-port-exposure.md)
+4. **Kredensial Default/Lemah pada Service** — password admin berpola leetspeak mudah ditebak, verifikasi password plaintext (tanpa hashing), dan tidak ada rate limiting/lockout pada `/api/login`. 📄 [Dokumentasi lengkap](docs/vulnerability-weak-credentials.md)
+5. **SQL Injection** — input `character_id` (`/api/check-id`) serta `email`/`password` (`/api/login`) di-concat langsung ke query SQL tanpa parameterization. 📄 [Dokumentasi lengkap](docs/vulnerability-sql-injection.md)
 
 Detail teknis dan dampak masing-masing vulnerability didokumentasikan lebih lanjut di **Worksheet Assessment 1 (Blue Team)** — belum di-upload ke repo ini, mohon dilengkapi sebelum deadline pengumpulan.
 
-⚠️ **Vulnerability kategori SQL Injection, Dependency rentan (versi package), dan File permission** belum diimplementasikan — ini menjadi tanggung jawab bagian backend saat coding berlangsung, karena butuh logic aplikasi (query, dependency management, filesystem).
+⚠️ **Vulnerability kategori Dependency rentan (versi package) dan File permission** belum diimplementasikan — ini menjadi tanggung jawab bagian backend saat coding berlangsung, karena butuh logic aplikasi (dependency management, filesystem).
 
 ---
 

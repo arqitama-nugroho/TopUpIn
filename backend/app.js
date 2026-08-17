@@ -9,8 +9,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Flag TIDAK disimpan di .env / environment — nilai terenkode (base64)
-// langsung tertanam di kode, didekode saat runtime. Dengan sengaja untuk
 // mengarahkan pentester menemukan rahasia lewat aplikasi, bukan file konfigurasi.
 const JWT_SECRET = Buffer.from('Q1RGe0p3VF9TM2NyM3RfSzNucF9CMGMwcn0=', 'base64').toString();
 const API_KEY = Buffer.from('Q1RGezRwMV9LM3lfQjBjMHJfdzBpfQ==', 'base64').toString();
