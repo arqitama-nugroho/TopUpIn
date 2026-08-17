@@ -62,7 +62,7 @@ Detail skema lengkap (kolom, tipe data, constraint) ada di file [`db/init.sql`](
 
 - Nama database: `topupgame_db`
 - Username: `topup_admin`
-- Password: lihat file `.env` (tidak ikut ter-commit; nilai placeholder `DB_PASSWORD_PLACEHOLDER` di kode)
+- Password: `TopUpDb#2026` (hardcoded di `docker-compose.yml` — sengaja untuk skenario assessment "hardcoded credential")
 
 > Catatan untuk backend: gunakan `db:5432` sebagai connection string bila backend juga didefinisikan sebagai service di `docker-compose.yml` yang sama. Port `5433` hanya berlaku untuk akses dari luar Docker.
 

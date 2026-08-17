@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: topup_admin
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: TopUpDb#2026
       POSTGRES_DB: topupgame_db
     ports:
       - "5433:5432"    # host:container -> akses dari luar container pakai 5433
@@ -33,7 +33,7 @@ services:
       DB_PORT: 5432
       DB_NAME: topupgame_db
       DB_USER: topup_admin
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PASSWORD: TopUpDb#2026
       JWT_SECRET: ${JWT_SECRET}
       API_KEY: ${API_KEY}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
