@@ -89,7 +89,9 @@ document.getElementById('login-form').addEventListener('submit', async function 
 
     if (data.status === 'success') {
       // Menggunakan role asli dari database (admin/user)
-      setRole(data.user.role); 
+      setRole(data.user.role);
+      localStorage.setItem('tp_uid', data.user.id);
+      localStorage.setItem('tp_username', data.user.username);
       showToast('Berhasil masuk sebagai ' + (data.user.role === 'admin' ? 'Admin' : 'User'));
       
       // Arahkan ke beranda setelah berhasil

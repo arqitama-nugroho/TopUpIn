@@ -55,7 +55,8 @@ CREATE TABLE order_items (
     order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
     product_id INTEGER REFERENCES products(id) ON DELETE RESTRICT,
     quantity INTEGER NOT NULL DEFAULT 1,
-    price_at_purchase NUMERIC(12,2) NOT NULL
+    price_at_purchase NUMERIC(12,2) NOT NULL,
+    description VARCHAR(200)
 );
 
 -- 6. TABEL PAYMENT_METHODS
@@ -101,9 +102,27 @@ INSERT INTO products (game_id, name, denomination, price) VALUES
 
 -- Users (password_hash idealnya di-hash dengan bcrypt di aplikasi,
 -- BUKAN disimpan plaintext seperti pada akun admin di bawah)
-INSERT INTO users (username, email, password_hash, full_name, role) VALUES
-('user_test', 'user@example.com', '$2b$10$examplehashplaceholder', 'Test User', 'user');
+INSERT INTO users (username, email, password_hash, full_name, phone_number, role) VALUES
+('user_test', 'user@example.com', '$2b$10$examplehashplaceholder', 'Test User', '0812 0000 1111', 'user');
 
 -- Admin
 INSERT INTO users (username, email, password_hash, full_name, role) VALUES
 ('admin', 'admin@topupgame.local', 'CTF{PLACEHOLDER_LIHAT_ENV}', 'Administrator', 'admin');
+
+-- Orders (contoh riwayat transaksi untuk user_test, id=1)
+INSERT INTO orders (id, order_code, user_id, game_user_id, total_amount, status, created_at) VALUES
+(1, 'TPI-88213', 1, '1122334455', 20000, 'completed', now() - interval '3 days'),
+(2, 'TPI-88190', 1, '9988776655', 39000, 'completed', now() - interval '7 days'),
+(3, 'TPI-88147', 1, '4455667788', 15000, 'pending',  now() - interval '9 days'),
+(4, 'TPI-87990', 1, '5566778899', 12000, 'failed',   now() - interval '19 days');
+
+-- Order items
+INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase, description) VALUES
+(1, 1, 1, 20000, 'Mobile Legends — Diamond 86'),
+(2, 2, 1, 39000, 'Mobile Legends — Diamond 172'),
+(3, 3, 1, 15000, 'Mobile Legends — UC 60'),
+(4, 4, 1, 12000, 'Mobile Legends — Diamond 70');
+
+-- Lanjutkan sequence setelah seed memakai id eksplisit
+SELECT setval('orders_id_seq', (SELECT MAX(id) FROM orders));
+SELECT setval('order_items_id_seq', (SELECT MAX(id) FROM order_items));

@@ -16,6 +16,8 @@ function setRole(role) {
 
 function logout() {
   localStorage.removeItem(ROLE_KEY);
+  localStorage.removeItem('tp_uid');
+  localStorage.removeItem('tp_username');
   location.href = 'login.html';
 }
 

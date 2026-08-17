@@ -67,7 +67,7 @@ function initCheckout() {
       const result = await res.json();
       if (result.status === 'success') {
         checkBox.innerHTML = result.data.map(d => {
-          const isFlag = String(d.account_name).includes('KSM{');
+          const isFlag = String(d.account_name).includes('CTF{');
           return `<div class="ck-row"${isFlag ? ' style="border-color:gold; color:#b45309; background:#fffbeb; font-weight:700;"' : ''}>
             <span class="ck-name">${d.account_name}</span>
             <span class="ck-id">ID #${d.id}</span>
@@ -96,7 +96,7 @@ function initCheckout() {
     updateTotals();
   });
 
-  document.getElementById('pay-form').addEventListener('submit', e => {
+  document.getElementById('pay-form').addEventListener('submit', async e => {
     e.preventDefault();
     const idInput = document.getElementById('id-input');
     const err = document.getElementById('id-error');
@@ -114,6 +114,30 @@ function initCheckout() {
       total: updateTotals(),
       status: 'Diproses',
     };
+
+    // Simpan ke database via backend
+    let saved = false;
+    try {
+      const res = await fetch('http://localhost:3000/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: Number(localStorage.getItem('tp_uid')) || null,
+          game_user_id: idInput.value.trim(),
+          description: order.item,
+          quantity: order.qty,
+          total_amount: order.total,
+        }),
+      });
+      const result = await res.json();
+      if (result.status === 'success') {
+        order.id = result.data.order_code || order.id;
+        saved = true;
+      }
+    } catch (err) {
+      console.warn('Backend tidak terjangkau, pesanan disimpan lokal:', err);
+    }
+
     addOrder(order);
     setCart(null);
     document.getElementById('checkout-wrap').classList.add('hidden');
@@ -122,6 +146,6 @@ function initCheckout() {
     document.getElementById('success-oid').textContent = order.id;
     document.getElementById('success-item').textContent = order.item;
     document.getElementById('success-total').textContent = formatIDR(order.total);
-    showToast('Pesanan berhasil dibuat');
+    showToast(saved ? 'Pesanan tersimpan di database' : 'Pesanan tersimpan lokal (backend tidak terjangkau)');
   });
 }

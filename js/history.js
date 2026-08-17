@@ -1,6 +1,8 @@
-const orders = getOrders();
+let orders = [];
 let statusFilter = 'all';
 let term = '';
+
+const STATUS_DB = { completed: 'Berhasil', pending: 'Diproses', failed: 'Gagal', cancelled: 'Gagal' };
 
 function setStat(id, html) {
   document.getElementById(id).innerHTML = html;
@@ -57,6 +59,29 @@ document.getElementById('h-search').addEventListener('input', e => {
   renderTable();
 });
 
-renderStats();
-renderTabs();
-renderTable();
+// Ambil riwayat transaksi asli dari database (backend API),
+// fallback ke localStorage bila server tidak terjangkau.
+async function loadOrders() {
+  try {
+    const res = await fetch('http://localhost:3000/api/orders');
+    const result = await res.json();
+    if (result.status === 'success' && result.data.length) {
+      orders = result.data.map(o => ({
+        id: o.order_code,
+        item: o.product_name,
+        qty: o.quantity || 1,
+        total: Number(o.total_amount),
+        status: STATUS_DB[o.status] || o.status,
+        date: new Date(o.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+      }));
+    }
+  } catch (e) {
+    console.warn('Gagal memuat riwayat dari server, memakai data lokal:', e);
+  }
+  if (!orders.length) orders = getOrders();
+  renderStats();
+  renderTabs();
+  renderTable();
+}
+
+loadOrders();

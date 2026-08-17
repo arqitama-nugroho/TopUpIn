@@ -73,6 +73,7 @@ app.post('/api/login', async (req, res) => {
                 status: "success",
                 message: "Login berhasil",
                 user: {
+                    id: user.id,
                     username: user.username,
                     role: user.role
                 }
@@ -115,6 +116,7 @@ app.post('/api/register', async (req, res) => {
             status: "success",
             message: "Akun berhasil dibuat",
             user: {
+                id: newUser.id,
                 username: newUser.username,
                 role: newUser.role
             }
@@ -134,14 +136,26 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/check-id', async (req, res) => {
     const { character_id } = req.body;
 
-    const query = `
+    // 1) Cek ID akun pengguna
+    const userQuery = `
         SELECT id, username AS account_name
         FROM users
-        WHERE id = '${character_id}'
+        WHERE id::text = '${character_id}'
+    `;
+
+    // 2) Fallback: cek ID karakter game (dari riwayat pesanan)
+    const gameQuery = `
+        SELECT DISTINCT u.id, u.username AS account_name
+        FROM users u
+        JOIN orders o ON o.user_id = u.id
+        WHERE o.game_user_id = '${character_id}'
     `;
 
     try {
-        const result = await dbClient.query(query);
+        let result = await dbClient.query(userQuery);
+        if (result.rows.length === 0) {
+            result = await dbClient.query(gameQuery);
+        }
 
         if (result.rows.length > 0) {
             res.json({
@@ -507,6 +521,81 @@ app.get('/api/users', async (req, res) => {
 
 
 // ==========================================
+// 13b. DETAIL PROFIL USER (sesuai username)
+// ==========================================
+app.get('/api/users/:username', async (req, res) => {
+    const username = req.params.username;
+
+    const query = `
+        SELECT id, full_name, username, email, phone_number, role, created_at
+        FROM users
+        WHERE username = '${username}'
+    `;
+
+    try {
+        const result = await dbClient.query(query);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                status: "failed",
+                message: "User tidak ditemukan"
+            });
+        }
+
+        res.json({
+            status: "success",
+            data: result.rows[0]
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            message: err.message
+        });
+    }
+});
+
+
+// ==========================================
+// 13c. UPDATE PROFIL USER
+// ==========================================
+app.put('/api/users/:id/profile', async (req, res) => {
+    const userId = req.params.id;
+    const { full_name, email, phone_number } = req.body;
+
+    const query = `
+        UPDATE users
+        SET full_name = '${full_name}',
+            email = '${email}',
+            phone_number = '${phone_number}'
+        WHERE id = ${userId}
+        RETURNING id, full_name, username, email, phone_number
+    `;
+
+    try {
+        const result = await dbClient.query(query);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                status: "failed",
+                message: "User tidak ditemukan"
+            });
+        }
+
+        res.json({
+            status: "success",
+            message: "Profil berhasil diperbarui",
+            data: result.rows[0]
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            message: err.message
+        });
+    }
+});
+
+
+// ==========================================
 // 14. DATA ORDERS UNTUK ADMIN
 // ==========================================
 app.get('/api/orders', async (req, res) => {
@@ -521,11 +610,11 @@ app.get('/api/orders', async (req, res) => {
                 o.status,
                 o.created_at,
                 oi.quantity,
-                p.name AS product_name
+                COALESCE(oi.description, p.name, 'Top Up Lainnya') AS product_name
             FROM orders o
             JOIN order_items oi
                 ON o.id = oi.order_id
-            JOIN products p
+            LEFT JOIN products p
                 ON oi.product_id = p.id
             ORDER BY o.id DESC
         `;
@@ -537,6 +626,58 @@ app.get('/api/orders', async (req, res) => {
             data: result.rows
         });
 
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            message: err.message
+        });
+    }
+});
+
+
+// ==========================================
+// 14b. BUAT ORDER BARU (pembelian dari checkout)
+// ==========================================
+app.post('/api/orders', async (req, res) => {
+    const { user_id, game_user_id, description, quantity, total_amount } = req.body;
+
+    const orderCode = 'TPI-' + Math.floor(10000 + Math.random() * 89999);
+
+    try {
+        const orderResult = await dbClient.query(`
+            INSERT INTO orders (order_code, user_id, game_user_id, total_amount, status)
+            VALUES ('${orderCode}', ${user_id || 'NULL'}, '${game_user_id}', ${total_amount}, 'pending')
+            RETURNING id, order_code, created_at
+        `);
+        const order = orderResult.rows[0];
+
+        let productId = null;
+        try {
+            const match = await dbClient.query(`
+                SELECT id FROM products
+                WHERE denomination ILIKE '%' || '${description}' || '%'
+                   OR '${description}' ILIKE '%' || denomination || '%'
+                LIMIT 1
+            `);
+            if (match.rows.length > 0) productId = match.rows[0].id;
+        } catch (e) {
+            /* abaikan kegagalan pencocokan produk */
+        }
+
+        await dbClient.query(`
+            INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase, description)
+            VALUES (${order.id}, ${productId}, ${quantity}, ${total_amount}, '${description}')
+        `);
+
+        res.json({
+            status: "success",
+            message: "Pesanan berhasil dibuat",
+            data: {
+                id: order.id,
+                order_code: order.order_code,
+                created_at: order.created_at
+            }
+        });
     } catch (err) {
         res.status(500).json({
             status: "error",
