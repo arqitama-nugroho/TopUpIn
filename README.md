@@ -8,7 +8,7 @@ Project Assessment Weekly Mentoring Beginner — KSM Cyber Security, UPN "Vetera
 |---|---|---|
 | Frontend (HTML/CSS/JS) | Selesai (versi awal) | Arqitama Nugroho |
 | Database (PostgreSQL) | Selesai | Zaskia Maharani |
-| Backend | Belum dikerjakan | - |
+| Backend | Belum dikerjakan | Selesai | Ahmad Billal & Haikal Ahza Anggera |
 | Vulnerability Injection | Sebagian (lihat catatan di bawah) | - |
 | Threat Model (OWASP Threat Dragon) | Belum dikerjakan | - |
 
