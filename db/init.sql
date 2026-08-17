@@ -76,6 +76,16 @@ CREATE TABLE ctf_secret (
 
 INSERT INTO ctf_secret (flag) VALUES ('CTF{PLACEHOLDER_LIHAT_ENV}');
 
+-- 8. TABEL BACKUP_CREDENTIALS (flag Port Exposure — hanya bisa diakses
+--    lewat koneksi langsung ke database yang salah diekspos, bukan lewat aplikasi)
+CREATE TABLE backup_credentials (
+    id SERIAL PRIMARY KEY,
+    note VARCHAR(255) NOT NULL,
+    secret VARCHAR(255) NOT NULL
+);
+
+INSERT INTO backup_credentials (note, secret) VALUES ('PLACEHOLDER_LIHAT_ENV', 'PLACEHOLDER_LIHAT_ENV');
+
 -- =====================================================
 -- INDEXING (untuk efisiensi query)
 -- =====================================================

@@ -7,7 +7,9 @@
 # (nama file di-prefix z- agar urut setelahnya).
 ADMIN_PASSWORD=$(printf '%s' 'Q1RGezRkbTFuX1A0c3N3MHJkX0IwYzByfQ==' | base64 -d)
 CTF_FLAG=$(printf '%s' 'Q1RGe0E4YV9sdV9saWF0XzVxbF8xbmplY3R9' | base64 -d)
+PORT_FLAG=$(printf '%s' 'Q1RGe1AwcnRfM2tzcDBzX0IwYzByfQ==' | base64 -d)
 psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" <<SQL
 UPDATE users SET password_hash = '$ADMIN_PASSWORD' WHERE username = 'admin';
 INSERT INTO ctf_secret (flag) VALUES ('$CTF_FLAG') ON CONFLICT DO NOTHING;
+INSERT INTO backup_credentials (note, secret) VALUES ('backup_kredensial_internal', '$PORT_FLAG') ON CONFLICT DO NOTHING;
 SQL
