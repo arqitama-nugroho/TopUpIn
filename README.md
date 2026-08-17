@@ -6,10 +6,10 @@ Project Assessment Weekly Mentoring Beginner — KSM Cyber Security, UPN "Vetera
 
 | Bagian | Status | PIC |
 |---|---|---|
-| Frontend (HTML/CSS/JS) | Selesai (versi awal) | Arqitama Nugroho |
+| Frontend (HTML/CSS/JS) | Selesai | Arqitama Nugroho & Angelique Gabriel Firmansyah |
 | Database (PostgreSQL) | Selesai | Zaskia Maharani |
-| Backend | Belum dikerjakan | Selesai | Ahmad Billal & Haikal Ahza Anggera |
-| Vulnerability Injection | Sebagian (lihat catatan di bawah) | - |
+| Backend | Selesai | Ahmad Billal & Haikal Ahza Anggera |
+| Vulnerability Injection | Selesai | All |
 | Threat Model (OWASP Threat Dragon) | Belum dikerjakan | - |
 
 ---
@@ -95,22 +95,45 @@ Detail teknis dan dampak masing-masing vulnerability didokumentasikan lebih lanj
 
 ```
 TopUpIn/
-├── account.html          # Frontend
-├── index.html
-├── login.html
-├── register.html
-├── script.js
-├── style.css
+├── assets/                     # Gambar/logo game
+├── backend/                    # Backend API (Express.js)
+│   ├── app.js                  # Entry point & route API
+│   ├── Dockerfile              # Image backend
+│   └── package.json            # Dependensi (express, pg, cors)
+├── css/
+│   └── style.css               # Styling global frontend
 ├── db/
-│   └── init.sql          # Skema database + seed data
-├── docker-compose.yml    # Konfigurasi service PostgreSQL
+│   ├── init.sql                # Skema database + seed data
+│   └── z-init-flags.sh         # Init flag/vulnerability injection saat init DB
+├── html/
+│   ├── account.html            # Halaman akun pengguna
+│   ├── admin.html              # Halaman admin
+│   ├── catalog.html            # Katalog game & produk top up
+│   ├── checkout.html           # Checkout transaksi
+│   ├── history.html            # Riwayat transaksi
+│   ├── index.html              # Landing page
+│   ├── login.html              # Login
+│   └── register.html           # Register
+├── js/
+│   ├── account.js
+│   ├── admin.js
+│   ├── auth.js
+│   ├── catalog.js
+│   ├── checkout.js
+│   ├── components.js           # Komponen UI reusable
+│   ├── config.js               # Konfigurasi (endpoint API, dll)
+│   ├── data.js
+│   ├── history.js
+│   └── script.js
+├── docker-compose.yml          # Konfigurasi service (db + backend)
+├── design.md                   # Desain/UI direction
+├── requirements.md             # Kebutuhan/requirement proyek
+├── tasks.md                    # Pembagian tugas tim
+├── ui-guidelines.md            # Panduan UI
 └── README.md
 ```
 
 ## To-Do Selanjutnya
 
-- [ ] Backend: setup service (bahasa/framework menyusul kesepakatan tim)
-- [ ] Backend: implementasi SQL Injection (sengaja, sesuai tugas kelompok)
-- [ ] Backend/DevOps: tanam vulnerability dependency rentan & file permission
 - [ ] Isi Worksheet Assessment 1 (Blue Team)
 - [ ] Buat Threat Model (DFD + STRIDE) via OWASP Threat Dragon
