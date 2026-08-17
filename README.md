@@ -71,7 +71,7 @@ Detail skema lengkap (kolom, tipe data, constraint) ada di file [`db/init.sql`](
 | Username | Password | Role |
 |---|---|---|
 | `user_test` | (hashed, placeholder) | user |
-| `admin` | lihat `.env` (`ADMIN_PASSWORD`) / seed `db/init.sql` (placeholder) | admin |
+| `admin` | `CTF{4dm1n_P4ssw0rd_B0c0r}` (di-inject dari `docker-compose.yml` via `db/z-init-flags.sh`) | admin |
 
 ---
 
