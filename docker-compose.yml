@@ -9,9 +9,6 @@ services:
       POSTGRES_USER: topup_admin
       POSTGRES_PASSWORD: TopUpDb#2026
       POSTGRES_DB: topupgame_db
-      # Nilai flag tersimpan terenkode (base64) — didekode saat init DB
-      ADMIN_PASSWORD: Q1RGezRkbTFuX1A0c3N3MHJkX0IwYzByfQ==
-      CTF_FLAG: Q1RGe0E4YV9sdV9saWF0XzVxbF8xbmplY3R9
     ports:
       - "5433:5432"    # host:container -> akses dari luar container pakai 5433
     volumes:
@@ -35,9 +32,6 @@ services:
       DB_NAME: topupgame_db
       DB_USER: topup_admin
       DB_PASSWORD: TopUpDb#2026
-      # Nilai flag tersimpan terenkode (base64) — didekode di app.js
-      JWT_SECRET: Q1RGe0p3VF9TM2NyM3RfSzNucF9CMGMwcn0=
-      API_KEY: Q1RGezRwMV9LM3lfQjBjMHJfdzBpfQ==
     ports:
       - "3000:3000"
 volumes:

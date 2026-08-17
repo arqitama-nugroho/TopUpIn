@@ -71,7 +71,7 @@ Detail skema lengkap (kolom, tipe data, constraint) ada di file [`db/init.sql`](
 | Username | Password | Role |
 |---|---|---|
 | `user_test` | (hashed, placeholder) | user |
-| `admin` | terenkode base64 di `docker-compose.yml` (`ADMIN_PASSWORD`, didekode via `db/z-init-flags.sh`) | admin |
+| `admin` | tidak disimpan di `.env` — di-inject ke DB saat init (`db/z-init-flags.sh`, nilai terenkode) | admin |
 
 ---
 
@@ -79,8 +79,9 @@ Detail skema lengkap (kolom, tipe data, constraint) ada di file [`db/init.sql`](
 
 Sesuai pembagian kelompok, kategori B dan C (Dependency rentan, file permission, port exposure) serta sebagian kategori A (hardcoded credential) bersinggungan dengan bagian database:
 
-1. **Hardcoded Credential/Secret** — Password akun admin disimpan dalam bentuk **plaintext** di seed data `db/init.sql` (nilai asli di-inject dari environment saat init, lihat `db/z-init-flags.sh`), bukan di-hash. Lokasi: tabel `users`, kolom `password_hash`, baris admin.
-2. **Port Exposure** — Port PostgreSQL di-*expose* ke host (`5433:5432`) tanpa pembatasan firewall/network segmentation, sehingga database berpotensi dapat diakses langsung dari luar layer aplikasi.
+1. **Hardcoded Credential/Secret** — Password akun admin disimpan dalam bentuk **plaintext** di seed data `db/init.sql` (nilai asli di-inject saat init, lihat `db/z-init-flags.sh`), bukan di-hash. Lokasi: tabel `users`, kolom `password_hash`, baris admin.
+2. **Sensitive Data Exposure (Debug Endpoint)** — `GET /api/debug/config` membocorkan konfigurasi termasuk `JWT_SECRET` (flag) tanpa autentikasi khusus (cukup API key). Lokasi: `backend/app.js`.
+3. **Port Exposure** — Port PostgreSQL di-*expose* ke host (`5433:5432`) tanpa pembatasan firewall/network segmentation, sehingga database berpotensi dapat diakses langsung dari luar layer aplikasi.
 
 Detail teknis dan dampak masing-masing vulnerability didokumentasikan lebih lanjut di **Worksheet Assessment 1 (Blue Team)** — belum di-upload ke repo ini, mohon dilengkapi sebelum deadline pengumpulan.
 

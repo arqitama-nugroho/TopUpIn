@@ -9,11 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Nilai dari docker-compose tersimpan terenkode (base64) agar tidak terbaca
-// langsung di repo — didekode di sini saat runtime.
-const JWT_SECRET = Buffer.from(process.env.JWT_SECRET || '', 'base64').toString() || "JWT_SECRET_PLACEHOLDER";
-
-const API_KEY = Buffer.from(process.env.API_KEY || '', 'base64').toString() || "API_KEY_PLACEHOLDER";
+// Flag TIDAK disimpan di .env / environment — nilai terenkode (base64)
+// langsung tertanam di kode, didekode saat runtime. Dengan sengaja untuk
+// mengarahkan pentester menemukan rahasia lewat aplikasi, bukan file konfigurasi.
+const JWT_SECRET = Buffer.from('Q1RGe0p3VF9TM2NyM3RfSzNucF9CMGMwcn0=', 'base64').toString();
+const API_KEY = Buffer.from('Q1RGezRwMV9LM3lfQjBjMHJfdzBpfQ==', 'base64').toString();
 
 app.use('/api', (req, res, next) => {
     if (req.method === 'OPTIONS' || req.path === '/key') return next();
@@ -42,6 +42,24 @@ dbClient.connect()
 // ==========================================
 app.get('/api/key', (req, res) => {
     res.json({ status: "success", key: API_KEY });
+});
+
+// ==========================================
+// 0b. LEAK KONFIGURASI (debug endpoint — vulnerability disengaja:
+//     sensitive data exposure; mengarahkan pentester ke JWT secret)
+// ==========================================
+app.get('/api/debug/config', (req, res) => {
+    res.json({
+        status: "success",
+        env: {
+            DB_HOST: process.env.DB_HOST || 'localhost',
+            DB_PORT: process.env.DB_PORT || 5432,
+            DB_NAME: process.env.DB_NAME || 'topupgame_db',
+            DB_USER: process.env.DB_USER || 'topup_admin'
+        },
+        jwt_secret: JWT_SECRET,
+        app_version: "1.0.0-debug"
+    });
 });
 
 
