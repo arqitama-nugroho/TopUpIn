@@ -4,6 +4,9 @@ node_modules/
 # Environment variables
 .env
 
+# Local CTF walkthrough (berisi hint flag — jangan di-commit)
+CTF-WALKTHROUGH.md
+
 # Logs
 *.log
 
