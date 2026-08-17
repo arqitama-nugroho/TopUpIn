@@ -9,9 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const JWT_SECRET = process.env.JWT_SECRET || "JWT_SECRET_PLACEHOLDER";
+// Nilai dari docker-compose tersimpan terenkode (base64) agar tidak terbaca
+// langsung di repo — didekode di sini saat runtime.
+const JWT_SECRET = Buffer.from(process.env.JWT_SECRET || '', 'base64').toString() || "JWT_SECRET_PLACEHOLDER";
 
-const API_KEY = process.env.API_KEY || "API_KEY_PLACEHOLDER";
+const API_KEY = Buffer.from(process.env.API_KEY || '', 'base64').toString() || "API_KEY_PLACEHOLDER";
 
 app.use('/api', (req, res, next) => {
     if (req.method === 'OPTIONS' || req.path === '/key') return next();
